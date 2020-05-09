@@ -1,7 +1,12 @@
-# recheck
-Regular expression sequence checker
+# reCheck
+<a href="https://github.com/p-ranav/indicators/blob/master/LICENSE">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="license"/>
+</a>
+<img src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" alt="version"/>
 
-# example
+recheck is a utility I made for playing around with regex validation on python objects (as opposed to strings), currently it's centered around verifying a sequence as opposed to finding it. Its also intended to support some novel features such as variables corrosponding to evaluated objects.
+
+### example
 
 ```python
 import recheck
