@@ -90,16 +90,16 @@ class Check(EvaluationAction):
 	"""
 	Check an object and its attributes
 	"""
-	def __init__(self, __recheck_required_type=None, **obj_attributes):
+	def __init__(self, __checkmate_required_type=None, **obj_attributes):
 		"""
-		:param __recheck_required_type: The type of the object you wish to get
-		:type  __recheck_required_type: type
-		:note  __recheck_required_type: None for not enforcing type checking
+		:param __checkmate_required_type: The type of the object you wish to get
+		:type  __checkmate_required_type: type
+		:note  __checkmate_required_type: None for not enforcing type checking
 		:param obj_attributes: The attributes required from an evaluated object
 		:type  obj_attributes: kwargs dict
 		"""
 		super(Check, self).__init__()
-		self._type = __recheck_required_type
+		self._type = __checkmate_required_type
 		self._obj_attributes = obj_attributes
 
 	def __repr__(self):
@@ -145,6 +145,38 @@ class Check(EvaluationAction):
 					return False
 
 		return True
+
+
+class LambdaCheck(Check):
+    """
+    Check an object according to a supplied lambda
+    """
+    def __init__(self, check_lambda):
+        """
+        :param check_lambda: The lambda used to check a given object
+        :note  check_lambda: The lambda should take an object ot test and a variables frame
+        :type  check_lambda: function
+        """
+        super(LambdaCheck, self).__init__()
+        self._check_lambda = check_lambda
+
+    def __repr__(self):
+        """
+        :return: Textual representation of the object
+        :rtype : str
+        """
+        return "LambdaCheck({checklambda})".format(checklambda=self._check_lambda)
+
+    def perform(self, obj, variables_frame=None):
+        """
+        :param obj: The object to be evaluated
+        :type  obj: any
+        :param variables_frame: The frame holding the evaluation variables
+        :type  variables_frame: VariablesFrame
+        :return: Wether the object evaluation action succeeded
+        :rtype : bool
+        """
+        return self._check_lambda(obj, variables_frame)
 
 
 class Range(RegexDescription):
@@ -209,15 +241,15 @@ class Possible(Range):
 	Specify a check that may or may not be satisfied
 	(shorthand for Range with min=0, max=1 with the same check)
 	"""
-	def __init__(self, __recheck_required_type=None, **obj_attributes):
+	def __init__(self, __checkmate_required_type=None, **obj_attributes):
 		"""
-		:param __recheck_required_type: The type of the object you wish to get
-		:type  __recheck_required_type: type
-		:note  __recheck_required_type: None for not enforcing type checking
+		:param __checkmate_required_type: The type of the object you wish to get
+		:type  __checkmate_required_type: type
+		:note  __checkmate_required_type: None for not enforcing type checking
 		:param obj_attributes: The attributes required from an evaluated object
 		:type  obj_attributes: kwargs dict
 		"""
-		underlying_check = Check(__recheck_required_type, **obj_attributes)
+		underlying_check = Check(__checkmate_required_type, **obj_attributes)
 		super(Possible, self).__init__(0, 1, underlying_check)
 
 
@@ -247,7 +279,7 @@ class Variable(object):
 		:type  name: str
 		:note  name: leave as None for automatic name generation
 		"""
-		self._name = name if name is not None else "__recheck_var_id({})".format(str(id(self)))
+		self._name = name if name is not None else "__checkmate_var_id({})".format(str(id(self)))
 
 	def __repr__(self):
 		"""
@@ -725,9 +757,7 @@ class EvaluationMachine(object):
 					new_var_frame = variables_frame if variables_frame.pending_changes_count() == 0 else copy.deepcopy(variables_frame)
 					new_var_frame.apply_changes()
 
-					# NOTE: for seperating state of nodes between branches, one could deepcopy the node between branches
-					# (pass copy.deepcopy(next_node)). In theory this should seperate states yet for some reason it doesn't work
-					# it should be looked into - yet a more elegant solution might be desired for more complex situations
+					# TODO: Think of a more elegant solution to the stateful range problem
 					branch_stack.append((next_node, new_index, new_var_frame))
 
 		return False
@@ -762,7 +792,7 @@ class Evaluation(object):
 		"""
 		return "Evaluation({})".format(self._descriptions)
 
-	def add(self, regex_description):
+	def append(self, regex_description):
 		"""
 		:param regex_description: Description of the next regex element
 		:type  regex_description: RegexDescription
@@ -777,5 +807,8 @@ class Evaluation(object):
 		:return: Wether the sequence satisfies the conditions described by the regex elements
 		:rtype : bool
 		"""
-		if self._changed: self._machine = EvaluationMachine(self._descriptions)
+		if self._changed:
+			self._machine = EvaluationMachine(self._descriptions)
+			self._changed = False
+
 		return self._machine.check(sequence)
