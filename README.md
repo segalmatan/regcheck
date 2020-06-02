@@ -1,22 +1,22 @@
-# reCheck
+# Checkmate
 <a href="https://github.com/p-ranav/indicators/blob/master/LICENSE">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="license"/>
 </a>
 <img src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" alt="version"/>
 
-recheck is a utility I made for playing around with regex validation on python objects (as opposed to strings), currently it's centered around verifying a sequence as opposed to finding it. Its also intended to support some novel features such as variables corrosponding to evaluated objects.
+Everybody needs that friend who really knows his regex, checkmate is a ~~mate~~ utility to help you do regex-like validation on python object sequences using lots of checks :) . It also supports some novel features to make this validation easier like variables that can be controlled during the validation of your python sequence. Extending the regex engine is hopefully easy to do and open to feedback, in the future I hope to add parallel state evaluation for a performance boost and expose more information that could be used to understand the reason for a validation failure (because who doesn't like debugging regex?).
 
 ### example
 
 ```python
-import recheck
+import checkmate
 sequence = [...]
-evaluation = recheck.Evaluation(
-  recheck.Check(ClassA, attribute1=1),
-  recheck.Check(ClassB, attribute1=2, attribute2="asdf"),
-  recheck.Range(
+evaluation = checkmate.Evaluation(
+  checkmate.Check(ClassA, attribute1=1),
+  checkmate.Check(ClassB, attribute1=2, attribute2="asdf"),
+  checkmate.Range(
     2,5,
-    recheck.Check(ClassA)
+    checkmate.Check(ClassA)
   )
 )
 
