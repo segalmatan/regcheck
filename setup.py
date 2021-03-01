@@ -3,9 +3,10 @@ import setuptools
 
 README = open("README.md", "r", encoding="utf-8").read()
 
+
 setuptools.setup(
     name="regcheck",
-    version="1.0.0",
+    version="0.1.0",
     author="Matan Segal",
     description="Regex-like python objects sequence checker",
     long_description=README,
@@ -19,6 +20,6 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    packages=setuptools.find_packages(exclude=["test*"]),
+    packages=setuptools.find_packages(exclude=["tests*"]),
     python_requires=">=2.7",
 )
