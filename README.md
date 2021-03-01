@@ -1,8 +1,5 @@
-<p align="center">
-  ### regcheck
-</p>
-
-<p align="center">
+## Regcheck
+<p>
   <img src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" alt="version"/>
   <a href="https://github.com/segalmatan/regcheck/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="license"/>
