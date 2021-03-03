@@ -1,25 +1,22 @@
-import setuptools
+# -*- coding: utf-8 -*-
+"""
+    Setup file for regcheck.
+    Use setup.cfg to configure your project.
+
+    This file was generated with PyScaffold 3.3.1.
+    PyScaffold helps you to put up the scaffold of your new Python project.
+    Learn more under: https://pyscaffold.org/
+"""
+import sys
+from pkg_resources import VersionConflict, require
+from setuptools import setup
+
+try:
+    require("setuptools>=38.3")
+except VersionConflict:
+    print("Error: version of setuptools is too old (<38.3)!")
+    sys.exit(1)
 
 
-README = open("README.md", "r", encoding="utf-8").read()
-
-
-setuptools.setup(
-    name="regcheck",
-    version="0.1.0",
-    author="Matan Segal",
-    description="Regex-like python objects sequence checker",
-    long_description=README,
-    long_description_content_type="text/markdown",
-    url="https://github.com/segalmatan/regcheck",
-    project_urls={
-        "Bug Tracker": "https://github.com/segalmatan/regcheck/issues",
-    },
-    classifiers=[
-        "Programming Language :: Python :: 2",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    ],
-    packages=setuptools.find_packages(exclude=["tests*"]),
-    python_requires=">=2.7",
-)
+if __name__ == "__main__":
+    setup(use_pyscaffold=True)

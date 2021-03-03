@@ -1,7 +1,7 @@
 """
 A Utility library for verifying object sequences in a regex-like fashion
 
-Copyright (c) 2020 Matan Segal
+Copyright (c) 2020-2021 segalmatan
 f
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -725,7 +725,6 @@ class EvaluationMachine(object):
 		self._last_max_index = 0
 		self._last_failure_reason = None
 
-		index = 0
 		branch_stack = []
 
 		# TODO: Insert parralelism to the branches evaluation

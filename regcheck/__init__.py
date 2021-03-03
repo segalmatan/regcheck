@@ -1,1 +1,0 @@
-from checkmate import *

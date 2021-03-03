@@ -1,4 +1,13 @@
-import regcheck
+# -*- coding: utf-8 -*-
+
+import pytest
+
+from regcheck import *
+
+
+__author__ = "segalmatan"
+__copyright__ = "segalmatan"
+__license__ = "mit"
 
 
 class AttributeTestingClass(object):
@@ -7,7 +16,6 @@ class AttributeTestingClass(object):
     """
     def __init__(self, **kwargs):
         for key, value in kwargs:
-            # TODO: Fix syntax, this is wrong
             setattr(self, key, value)
 
 
@@ -28,12 +36,12 @@ def test_sanity():
     MIN_REPEAT = 2
     MAX_REPEAT = 5
 
-    evaluation = regcheck.Evaluation(
-        regcheck.Check(ClassA, attribute1=1),
-        regcheck.Check(ClassB, attribute1=2, attribute2="asdf"),
-        regcheck.Range(
+    evaluation = Evaluation(
+        Check(ClassA, attribute1=1),
+        Check(ClassB, attribute1=2, attribute2="asdf"),
+        Range(
             MIN_REPEAT, MAX_REPEAT,
-            regcheck.Check(ClassA)
+            Check(ClassA)
         )
     )
 
